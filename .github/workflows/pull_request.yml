@@ -28,3 +28,19 @@ jobs:
     - name: Test with pytest
       run: |
         pytest
+
+  format_code:
+
+    runs-on: ubuntu-latest
+    steps:
+    - name: Check out code
+      uses: actions/checkout@v2
+    - name: Format code with black
+      run: black .
+    - name: Commit and push changes
+      run: |
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+        git add .
+        git commit -m "Format code with black" || echo "No changes to format"
+        git push origin HEAD
