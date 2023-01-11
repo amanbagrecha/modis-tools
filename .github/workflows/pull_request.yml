@@ -6,7 +6,7 @@ on:
     types: [opened, reopened, ready_for_review]
   push:
     branches:
-      - main
+      - '*'
 
 jobs:
   build_and_test:
