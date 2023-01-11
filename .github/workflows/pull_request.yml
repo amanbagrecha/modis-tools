@@ -35,6 +35,12 @@ jobs:
     steps:
     - name: Check out code
       uses: actions/checkout@v2
+    - name: Install dependencies
+      run: |
+        apt-get update && \
+          apt-get install -y \
+        python -m pip install --upgrade pip
+        python -m pip install black
     - name: Format code with black
       run: black .
     - name: Commit and push changes
