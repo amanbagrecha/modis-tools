@@ -2,7 +2,7 @@ name: Pull Request
 
 on:
   pull_request:
-    branches: [ main ]
+    branches: [ main, aman/black-format ]
     types: [opened, reopened, ready_for_review]
   push:
     branches:
@@ -38,18 +38,17 @@ jobs:
     steps:
     - name: Check out code
       uses: actions/checkout@v2
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.10' # Set the Python version you want to use
     - name: Install dependencies
       run: |
-        apt-get update && \
-          apt-get install -y \
         python -m pip install --upgrade pip
-        python -m pip install black
+        pip install black
     - name: Format code with black
-      run: black .
-    - name: Commit and push changes
       run: |
-        git config --local user.email "action@github.com"
-        git config --local user.name "GitHub Action"
-        git add .
-        git commit -m "Format code with black" || echo "No changes to format"
-        git push origin HEAD
+        black .
+    - name: Add env variable
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
